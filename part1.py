@@ -56,19 +56,25 @@ def calculateRubine(df):
         f12 = max(f12, (delta(x_col, i)**2 + delta(y_col, i)**2) / delta(t_col, i)**2)
 
     f13 = t_col[df.shape[0]-1] - t_col[0]
-    result = [character + "_" + str(index+1), f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13]
+    result = [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13]
     return result
 
-results = []
-col = ["sketch", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13"]
-for character in ascii_lowercase:
-    for index in range(20):
-        path = "data/letters-csv/" + character + "/" + character + "_" + str(index+1) + ".csv"
-        df = pd.read_csv(path)
-        print(path)
-        result = calculateRubine(df)
-        results.append(result)
-        
-        # print(result)
-    
-df_result = pd.DataFrame(results, columns=col)
+def main():
+    results = []
+    col = ["sketch", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13"]
+    for character in ascii_lowercase:
+        for index in range(20):
+            path = "data/letters-csv/" + character + "/" + character + "_" + str(index+1) + ".csv"
+            df = pd.read_csv(path)
+            print(path)
+            result = calculateRubine(df)
+            result.insert(0, character + "_" + str(index+1))
+            results.append(result)
+    df_result = pd.DataFrame(results, columns=col)
+    df_result.to_csv("features.csv")
+
+
+
+
+if __name__ == "__main__":
+    main()
