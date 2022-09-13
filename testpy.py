@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from math import *
 from string import ascii_lowercase
 
-mycolumns = ["class","f1","f2","f3","f4","f5","f6","f7","f8","f9","f10","f11","f12","f13"]
+mycolumns = ["sketch","f1","f2","f3","f4","f5","f6","f7","f8","f9","f10","f11","f12","f13"]
 df = pd.DataFrame(columns=mycolumns)
 
 # index for dataframe
