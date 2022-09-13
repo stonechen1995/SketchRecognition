@@ -46,9 +46,10 @@ def calculateRubine(df):
     for i in range (2, df.shape[0], 1):
         nominator = (-delta(y_col, i) * delta(x_col, i-1) + delta(y_col, i-1) * delta(x_col, i))
         denominator = (delta(x_col, i) * delta(x_col, i-1) + delta(y_col, i)   * delta(y_col, i-1))
-        f9 += math.atan2(nominator, denominator)
-        f10 += abs(f9)
-        f11 += f9**2
+        temp = math.atan2(nominator, denominator) 
+        f9 += temp
+        f10 += abs(temp)
+        f11 += temp**2
 
     f12 = 0
     for i in range(1, df.shape[0], 1):
@@ -59,22 +60,32 @@ def calculateRubine(df):
     result = [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13]
     return result
 
-def main():
+def generate1(): #run letter data
     results = []
     col = ["sketch", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13"]
     for character in ascii_lowercase:
         for index in range(20):
             path = "data/letters-csv/" + character + "/" + character + "_" + str(index+1) + ".csv"
             df = pd.read_csv(path)
-            print(path)
+            # print(path)
             result = calculateRubine(df)
             result.insert(0, character + "_" + str(index+1))
             results.append(result)
     df_result = pd.DataFrame(results, columns=col)
     df_result.to_csv("features.csv")
 
-
-
+def generate2(): #run sample data to test the correctness of code
+    results = []
+    col = ["sketch", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13"]
+    for index in range(8):
+        path = "data/sample-csv/shape_" + str(index+1) + ".csv"
+        df = pd.read_csv(path)
+        # print(path)
+        result = calculateRubine(df)
+        result.insert(0, "shape_" + str(index+1))
+        results.append(result)
+    df_result = pd.DataFrame(results, columns=col)
+    df_result.to_csv("features.csv")
 
 if __name__ == "__main__":
-    main()
+    generate1()
