@@ -1,8 +1,8 @@
-from tracemalloc import start
 import pandas as pd
 import math
 import os
 import glob
+import matplotlib.pyplot as plt
 
 def delta(col, ind1, ind2=None):
     if ind2 == None:
@@ -34,17 +34,36 @@ def resample():
     path = "resample-data/"
     csv_files = glob.glob(os.path.join(path, "*.csv"))
     for f in csv_files:
-        df = pd.read_csv(f)
+        df = pd.read_csv(f, header=None)
         x_col, y_col, length = calculateRubine(df)
+        results = [[x_col[0], y_col[0]]]
         unit = length / 63
-        for ind in range(64):
-            # if unit is between some points, then interpolate the point between these two points, 
+        ind = 1
+        while ind < 64:
+            # if unit*ind is between some points, then interpolate the point between these two points, 
             # otherwise, index to next point and repeat the first step.
-            
-            for ()
-            if unit * ind < 
-            x_value = x_col[0] + unit * ind * (x_col[i] - x_col[i-1])
-            y_value = y_col[0] + unit * ind * (y_col[i] - y_col[i-1])
+            f8 = 0
+            num = 0
+            while True:
+                if unit * ind > f8:
+                    f8_change = math.sqrt(delta(x_col, num + 1) ** 2 + delta(y_col, num + 1) ** 2)
+                    f8 += f8_change
+                    num += 1
+                else:
+                    x_value = x_col[num - 1] + (unit * ind - (f8 - f8_change)) * (x_col[num] - x_col[num - 1]) / f8_change
+                    y_value = y_col[num - 1] + (unit * ind - (f8 - f8_change)) * (y_col[num] - y_col[num - 1]) / f8_change
+                    results.append([x_value, y_value])
+                    ind += 1
+                    break
+        df_result = pd.DataFrame(results)
+        folder = f.split("/")[0] + "-new"
+        name = f.split("/")[1].split(".")[0] + "_resampled.csv"
+        df_result.to_csv(folder + "/" + name, header=False, index=False)
+        # fig, ax = plt.subplots()
+        # ax.plot(x_col, y_col)
+        # fig, bx = plt.subplots()
+        # bx.plot(df_result.iloc[:,0], df_result.iloc[:,1])
+
         
 if __name__ == "__main__":
     resample()
