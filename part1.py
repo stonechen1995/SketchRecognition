@@ -66,7 +66,7 @@ def calculate_rubine(df):
 
 def generate1():  # run letter data
     results = []
-    col = ["sketch", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13"]
+    col = ["sketch", "f01", "f02", "f03", "f04", "f05", "f06", "f07", "f08", "f09", "f10", "f11", "f12", "f13"]
     for character in ascii_lowercase:
         for index in range(20):
             path = "data/letters-csv/" + character + "/" + character + "_" + str(index + 1) + ".csv"
@@ -76,12 +76,12 @@ def generate1():  # run letter data
             result.insert(0, character + "_" + str(index + 1))
             results.append(result)
     df_result = pd.DataFrame(results, columns=col)
-    df_result.to_csv("features.csv")
+    df_result.to_csv("features.csv", index=False)
 
 
 def generate2():  # run sample data to test the correctness of code
     results = []
-    col = ["sketch", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "f13"]
+    col = ["sketch", "f01", "f02", "f03", "f04", "f05", "f06", "f07", "f08", "f09", "f10", "f11", "f12", "f13"]
     for index in range(8):
         path = "data/sample-csv/shape_" + str(index + 1) + ".csv"
         df = pd.read_csv(path)
@@ -90,7 +90,7 @@ def generate2():  # run sample data to test the correctness of code
         result.insert(0, "shape_" + str(index + 1))
         results.append(result)
     df_result = pd.DataFrame(results, columns=col)
-    df_result.to_csv("features.csv")
+    df_result.to_csv("features.csv", index=False)
 
 
 if __name__ == "__main__":
