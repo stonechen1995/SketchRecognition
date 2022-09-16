@@ -63,6 +63,7 @@ def resample():
         folder = f.split("/")[0] + "-new"
         name = f.split("/")[1].split(".")[0] + "_resampled.csv"
         df_result.to_csv(folder + "/" + name, header=False, index=False)
+        # print(f)
         # fig, ax = plt.subplots()
         # ax.plot(x_col, y_col)
         # fig, bx = plt.subplots()
