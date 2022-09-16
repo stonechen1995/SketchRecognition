@@ -31,10 +31,6 @@ def calculate_rubine(df):
     return x_col, y_col, f8
 
 
-# def indexPoint(df, startX, startY):
-#     df[startX]
-
-
 def resample():
     path = "resample-data/"
     csv_files = glob.glob(os.path.join(path, "*.csv"))

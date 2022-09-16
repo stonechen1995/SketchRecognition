@@ -1,6 +1,5 @@
 import pandas as pd
 import math
-import os
 from string import ascii_lowercase
 
 
@@ -33,8 +32,10 @@ def calculate_rubine(df):
 
     f1 = (x_col[2] - x_col[0]) / math.sqrt((y_col[2] - y_col[0]) ** 2 + (x_col[2] - x_col[0]) ** 2)
     f2 = (y_col[2] - y_col[0]) / math.sqrt((y_col[2] - y_col[0]) ** 2 + (x_col[2] - x_col[0]) ** 2)
+
     f3 = math.sqrt((y_max - y_min) ** 2 + (x_max - x_min) ** 2)
     f4 = math.atan2((y_max - y_min), (x_max - x_min))
+
     f5 = math.sqrt((x_col[df.shape[0] - 1] - x_col[0]) ** 2 + (y_col[df.shape[0] - 1] - y_col[0]) ** 2)
     f6 = (x_col[df.shape[0] - 1] - x_col[0]) / f5
     f7 = (y_col[df.shape[0] - 1] - y_col[0]) / f5
@@ -49,14 +50,15 @@ def calculate_rubine(df):
     for i in range(2, df.shape[0], 1):
         nominator = (-delta(y_col, i) * delta(x_col, i - 1) + delta(y_col, i - 1) * delta(x_col, i))
         denominator = (delta(x_col, i) * delta(x_col, i - 1) + delta(y_col, i) * delta(y_col, i - 1))
-        temp = math.atan2(nominator, denominator)
-        f9 += temp
-        f10 += abs(temp)
-        f11 += temp ** 2
+        temp_angle = math.atan2(nominator, denominator)
+        f9 += temp_angle
+        f10 += abs(temp_angle)
+        f11 += temp_angle ** 2
 
     f12 = 0
     for i in range(1, df.shape[0], 1):
-        if delta(t_col, i) == 0: continue
+        if delta(t_col, i) == 0:
+            continue
         f12 = max(f12, (delta(x_col, i) ** 2 + delta(y_col, i) ** 2) / delta(t_col, i) ** 2)
 
     f13 = t_col[df.shape[0] - 1] - t_col[0]
